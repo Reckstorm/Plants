@@ -4,8 +4,21 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Plants.View"
+        xmlns:CC="clr-namespace:Plants.CustomControls"
+        xmlns:DC="clr-namespace:Plants.ViewModel"
         mc:Ignorable="d"
-        Title="Login" Height="250" Width="300">
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        Title="Login" Height="200" Width="300">
+    <Window.DataContext>
+        <DC:LoginVM/>
+    </Window.DataContext>
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisibility"/>
+    </Window.Resources>
+    <Window.Visibility>
+        <Binding Path="IsVisible" Mode="TwoWay" Converter="{StaticResource BoolToVisibility}"/>
+    </Window.Visibility>
     <StackPanel VerticalAlignment="Center">
         <Grid>
             <Grid.RowDefinitions>
@@ -24,35 +37,24 @@
                         Orientation="Horizontal"
                         Margin="5">
                 <TextBlock Text="Username:" 
-                           FontWeight="DemiBold"
-                           VerticalAlignment="Center"
-                           MinWidth="60"></TextBlock>
+                           Style="{StaticResource HeaderTB}"></TextBlock>
                 <TextBox MinWidth="150"
-                         VerticalAlignment="Center"></TextBox>
+                         VerticalAlignment="Center"
+                         Text="{Binding Username}"></TextBox>
             </StackPanel>
-            <StackPanel Grid.Row="2"
-                        HorizontalAlignment="Center"
-                        Orientation="Horizontal"
-                        Margin="5">
+            <StackPanel Grid.Row="2">
                 <TextBlock Text="Password:" 
-                           FontWeight="DemiBold"
-                           VerticalAlignment="Center"
-                           MinWidth="60"></TextBlock>
-                <TextBox MinWidth="150"
-                         VerticalAlignment="Center"></TextBox>
+                           Style="{StaticResource HeaderTB}"></TextBlock>
+                <CC:BindablePasswordBox Password="{Binding Password, Mode=TwoWay}"></CC:BindablePasswordBox>
             </StackPanel>
             <TextBlock Grid.Row="3"
-                       Text="{Binding Path=ErrorText}"
-                       Foreground="Red"
-                       FontWeight="Bold"></TextBlock>
-            <StackPanel Grid.Row="4"
-                        HorizontalAlignment="Center"
-                        Orientation="Horizontal">
-                <Button Content="Exit"
-                        Margin="5"
-                        MinWidth="100"></Button>
+                       Text="{Binding ErrorStr}"
+                       Style="{StaticResource HeaderTB}"
+                       Foreground="Red"></TextBlock>
+            <StackPanel Grid.Row="4">
                 <Button Content="Login"
-                        Margin="5"
+                        Margin="{DynamicResource GlobalThickness}"
+                        Command="{Binding LoginCommand}"
                         MinWidth="100"></Button>
             </StackPanel>
         </Grid>

@@ -46,8 +46,17 @@ namespace Plants.Model
             this.Id = 0;
 			UserName = string.Empty;
 			Password = string.Empty;
+			UserRole = null;
         }
 
 		public override string ToString() => $"{UserRole} - {UserName}";
+        public override bool Equals(object? obj)
+        {
+			if (obj == null) return false;
+			if (!(obj is User)) return false;
+			User tmp = obj as User;
+			if (tmp.UserName.Equals(UserName) && tmp.Password.Equals(Password)) return true;
+			return false;
+        }
     }
 }
