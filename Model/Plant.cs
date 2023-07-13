@@ -10,6 +10,13 @@ namespace Plants.Model
     internal class Plant : BindableBase
     {
 		private int id;
+		private string commonName;
+		private string sciName;
+		private string description;
+		private string pros;
+		private string cons;
+		private string region;
+		private string imgSource;
 
 		public int Id
 		{
@@ -20,9 +27,6 @@ namespace Plants.Model
 				RaisePropertyChanged(nameof(Id));
 			}
 		}
-
-		private string commonName;
-
 		public string CommonName
 		{
 			get { return commonName; }
@@ -32,9 +36,6 @@ namespace Plants.Model
 				RaisePropertyChanged(nameof(CommonName));
 			}
 		}
-
-		private string sciName;
-
 		public string SciName
         {
 			get { return sciName; }
@@ -44,9 +45,6 @@ namespace Plants.Model
 				RaisePropertyChanged(nameof(SciName));
 			}
 		}
-
-		private string description;
-
 		public string Description
         {
 			get { return description; }
@@ -56,9 +54,6 @@ namespace Plants.Model
 				RaisePropertyChanged(nameof(Description));
 			}
 		}
-
-		private string pros;
-
 		public string Pros
 		{
 			get { return pros; }
@@ -68,9 +63,6 @@ namespace Plants.Model
 				RaisePropertyChanged(nameof(Pros));
 			}
 		}
-
-		private string cons;
-
 		public string Cons
 		{
 			get { return cons; }
@@ -80,9 +72,6 @@ namespace Plants.Model
 				RaisePropertyChanged(nameof(Cons));
 			}
 		}
-
-		private string region;
-
 		public string Region
 		{
 			get { return region; }
@@ -92,10 +81,25 @@ namespace Plants.Model
 				RaisePropertyChanged(nameof(Region));
 			}
 		}
-
-        public Plant()
+		public string ImgSource
+        {
+			get { return imgSource; }
+			set 
+			{ 
+				imgSource = value;
+                RaisePropertyChanged(nameof(ImgSource));
+            }
+		}
+		public Plant()
         {
 			id = 0;
+			CommonName = string.Empty; 
+			SciName = string.Empty;
+			Description = string.Empty;
+			Pros = string.Empty;
+			Cons = string.Empty;
+            Region = string.Empty;
+			ImgSource = string.Empty;
         }
 
 		public override string ToString() => $"{Id} : {CommonName}";

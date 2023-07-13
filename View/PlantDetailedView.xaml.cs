@@ -1,9 +1,7 @@
-﻿using Plants.View;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -12,24 +10,18 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Plants
+namespace Plants.View
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for PlantDetailedView.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class PlantDetailedView : Window
     {
-        public MainWindow()
+        public PlantDetailedView()
         {
             InitializeComponent();
-            this.Closing += (s, e) =>
-            {
-                Thread.CurrentPrincipal = null;
-                new Login().Show();
-            };
         }
     }
 }

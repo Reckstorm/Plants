@@ -2,14 +2,18 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <SolidColorBrush Color="DarkGray" x:Key="InitialBG"/>
     <Thickness x:Key="GlobalThickness" Left="5" Top="5" Right="5" Bottom="5"/>
-    <Style TargetType="{x:Type Window}">
-        <Setter Property="Background" Value="{DynamicResource InitialBG}"/>
-    </Style>
     <Style TargetType="TextBlock" x:Key="HeaderTB">
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="HorizontalAlignment" Value="Center"/>
         <Setter Property="FontWeight" Value="DemiBold"/>
         <Setter Property="MinWidth" Value="60"/>
+    </Style>
+    <Style TargetType="TextBlock" x:Key="DetailsHeaderTB" BasedOn="{StaticResource HeaderTB}">
+        <Setter Property="Margin" Value="{StaticResource GlobalThickness}"/>
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+        <Setter Property="FontWeight" Value="DemiBold"/>
+        <Setter Property="MinWidth" Value="60"/>
+        <Setter Property="FontSize" Value="14"/>
     </Style>
     <Style TargetType="{x:Type StackPanel}">
         <Setter Property="HorizontalAlignment" Value="Center"/>

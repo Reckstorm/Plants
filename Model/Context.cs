@@ -12,6 +12,7 @@ namespace Plants.Model
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<Plant> Plants { get; set; }
+
         private static Context _context;
         public Context() { }
         public static Context GetInstance() 

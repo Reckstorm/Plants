@@ -7,7 +7,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Security;
+using System.Security.Principal;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Plants.ViewModel
@@ -28,7 +30,6 @@ namespace Plants.ViewModel
                 RaisePropertyChanged(nameof(ErrorStr));
             }
         }
-
         public string Username
         {
             get { return _username; }
@@ -63,13 +64,20 @@ namespace Plants.ViewModel
         {
             LoginCommand = new DelegateCommand(() =>
             {
-                User tmp = Context.GetInstance().Users.Include(u => u.UserRole).FirstOrDefault(x => x.UserName.Equals(this.Username) && x.Password.Equals(this.Password));
-                if (tmp == null)
+                using (Context c = new Context())
                 {
-                    ErrorStr = "Invalid data";
-                    return;
+                    User tmp = c.Users.Include(u => u.UserRole).FirstOrDefault(x => x.UserName.Equals(this.Username) && x.Password.Equals(this.Password));
+                    if (tmp == null)
+                    {
+                        ErrorStr = "Invalid data";
+                        return;
+                    }
+                    if (tmp.UserRole != null)
+                    {
+                        Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity(Username), null);
+                        IsVisible = false;
+                    }
                 }
-                if (tmp.UserRole != null) IsVisible = false;
             });
         }
     }

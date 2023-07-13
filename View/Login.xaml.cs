@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Plants.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -22,6 +24,14 @@ namespace Plants.View
         public Login()
         {
             InitializeComponent();
+            this.IsVisibleChanged += (s, e) =>
+            {
+                if (this.IsVisible == false && this.IsLoaded && Thread.CurrentPrincipal != null)
+                {
+                    new MainWindow().Show();
+                    this.Close();
+                }
+            };
         }
     }
 }

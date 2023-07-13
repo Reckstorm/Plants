@@ -50,13 +50,5 @@ namespace Plants.Model
         }
 
 		public override string ToString() => $"{UserRole} - {UserName}";
-        public override bool Equals(object? obj)
-        {
-			if (obj == null) return false;
-			if (!(obj is User)) return false;
-			User tmp = obj as User;
-			if (tmp.UserName.Equals(UserName) && tmp.Password.Equals(Password)) return true;
-			return false;
-        }
     }
 }

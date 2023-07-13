@@ -1,0 +1,97 @@
+﻿<Window x:Class="Plants.View.PlantDetailedView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Plants.View"
+        xmlns:DC="clr-namespace:Plants.ViewModel"
+        xmlns:converters="clr-namespace:Plants.Converters"
+        mc:Ignorable="d"
+        Title="PlantDetailedView" Height="450" Width="350">
+    <Window.DataContext>
+        <DC:MainVM/>
+    </Window.DataContext>
+    <Window.Resources>
+        <converters:RoleToVisibilityConverter x:Key="RoleToVisibilityConverter"/>
+        <converters:RoleToEnabledConverter x:Key="RoleToEnabledConverter"/>
+    </Window.Resources>
+    <Grid>
+        <Border>
+            <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                          VerticalScrollBarVisibility="Auto">
+                <StackPanel Orientation="Vertical"
+                            HorizontalAlignment="Stretch">
+                    <Grid >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*"></ColumnDefinition>
+                            <ColumnDefinition Width="3*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Orientation="Vertical"
+                                    HorizontalAlignment="Left">
+                            <Image x:Name="PlantImg" 
+                                   Source="{Binding Path=SelectedPlant.ImgSource}"
+                                   MinHeight="150"
+                                   MaxHeight="300" 
+                                   Margin="{StaticResource GlobalThickness}"/>
+                            <Button Content="Pick Image"
+                                    Command="{Binding PickImageCommand}"
+                                    Visibility="{Binding Path=CurrentUser, Converter={StaticResource RoleToVisibilityConverter}, ConverterParameter=Admin}"></Button>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1"
+                                    Orientation="Vertical"
+                                    HorizontalAlignment="Left">
+                            <TextBlock Text="Common Name:"
+                                       Style="{DynamicResource DetailsHeaderTB}"></TextBlock>
+                            <TextBox Text="{Binding Path=SelectedPlant.CommonName}" 
+                                     TextWrapping="Wrap"
+                                     IsEnabled="{Binding Path=CurrentUser, Converter={StaticResource RoleToEnabledConverter}, ConverterParameter=Admin}">
+                            </TextBox>
+                            <TextBlock Text="Scientific Name:"
+                                       Style="{DynamicResource DetailsHeaderTB}"></TextBlock>
+                            <TextBox Text="{Binding Path=SelectedPlant.SciName}"
+                                     TextWrapping="Wrap"
+                                     IsEnabled="{Binding Path=CurrentUser, Converter={StaticResource RoleToEnabledConverter}, ConverterParameter=Admin}"/>
+                        </StackPanel>
+                    </Grid>
+                    <StackPanel Orientation="Vertical"
+                                HorizontalAlignment="Left">
+                        <TextBlock Text="Region: "
+                                   Style="{DynamicResource DetailsHeaderTB}"/>
+                        <TextBox Text="{Binding Path=SelectedPlant.Region}"
+                                 TextWrapping="Wrap"
+                                 IsEnabled="{Binding Path=CurrentUser, Converter={StaticResource RoleToEnabledConverter}, ConverterParameter=Admin}"/>
+                        <TextBlock Text="Description:"
+                                   Style="{DynamicResource DetailsHeaderTB}"/>
+                        <TextBox Text="{Binding Path=SelectedPlant.Description}"
+                                 TextWrapping="Wrap"
+                                 IsEnabled="{Binding Path=CurrentUser, Converter={StaticResource RoleToEnabledConverter}, ConverterParameter=Admin}"/>
+                        <TextBlock Text="Useful qualities:"
+                                   Style="{DynamicResource DetailsHeaderTB}"/>
+                        <TextBox Text="{Binding Path=SelectedPlant.Pros}"
+                                 TextWrapping="Wrap"
+                                 IsEnabled="{Binding Path=CurrentUser, Converter={StaticResource RoleToEnabledConverter}, ConverterParameter=Admin}"/>
+                        <TextBlock Text="Bad qualities:"
+                                   Style="{DynamicResource DetailsHeaderTB}"/>
+                        <TextBox Text="{Binding Path=SelectedPlant.Cons}"
+                                 TextWrapping="Wrap"
+                                 IsEnabled="{Binding Path=CurrentUser, Converter={StaticResource RoleToEnabledConverter}, ConverterParameter=Admin}"/>
+                    </StackPanel>
+                    <DockPanel LastChildFill="False">
+                        <Button Content="Delete"
+                                DockPanel.Dock="Right"
+                                Margin="{DynamicResource GlobalThickness}"
+                                Command="{Binding RemoveCommand}"
+                                CommandParameter="{Binding Path=SelectedPlant}"
+                                Visibility="{Binding Path=CurrentUser, Converter={StaticResource RoleToVisibilityConverter}, ConverterParameter=Admin}"></Button>
+                        <Button Content="Save" 
+                                DockPanel.Dock="Right"
+                                Margin="{DynamicResource GlobalThickness}"
+                                Command="{Binding SaveCommand}"
+                                CommandParameter="{Binding Path=SelectedPlant}"
+                                Visibility="{Binding Path=CurrentUser, Converter={StaticResource RoleToVisibilityConverter}, ConverterParameter=Admin}"></Button>
+                    </DockPanel>
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
+    </Grid>
+</Window>
