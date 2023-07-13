@@ -2,12 +2,15 @@
 using Microsoft.Win32;
 using Plants.Model;
 using Prism.Mvvm;
+using Prism.Services.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace Plants.ViewModel
@@ -42,11 +45,14 @@ namespace Plants.ViewModel
 
         public void PickImageCommand()
         {
+            string path = AppDomain.CurrentDomain.BaseDirectory;
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Image files (*.png;*.jpeg)|*.png;*.jpeg|All files (*.*)|*.*";
             if (openFileDialog.ShowDialog() == true)
             {
-                SelectedPlant.ImgSource = openFileDialog.FileName;
+                string name = $@"{path}images\{openFileDialog.SafeFileName}";
+                File.Copy(openFileDialog.FileName, name);
+                SelectedPlant.ImgSource = name;
             }
         }
 
