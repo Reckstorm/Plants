@@ -17,6 +17,7 @@ namespace Plants.ViewModel
 {
     internal class PlantVM : BindableBase
     {
+        private List<Plant> _sourcePlants = new List<Plant>();
         private readonly ObservableCollection<Plant> _plants = new ObservableCollection<Plant>();
         public readonly ReadOnlyObservableCollection<Plant> PublicPlants;
         private Plant selectedPlant;
@@ -37,8 +38,9 @@ namespace Plants.ViewModel
             {
                 foreach (Plant plant in c.Plants)
                 {
-                    _plants.Add(plant);
+                    _sourcePlants.Add(plant);
                 }
+                _plants = new ObservableCollection<Plant>(_sourcePlants);
                 PublicPlants = new ReadOnlyObservableCollection<Plant>(_plants);
             }
         }
@@ -51,7 +53,7 @@ namespace Plants.ViewModel
             openFileDialog.Filter = "Image files (*.png;*.jpeg)|*.png;*.jpeg|All files (*.*)|*.*";
             if (openFileDialog.ShowDialog() == true)
             {
-                string name = $@"{path}\{openFileDialog.SafeFileName}";
+                string name = $@"{path}\{new Random().Next(1999999999)}{Path.GetExtension(openFileDialog.FileName)}";
                 File.Copy(openFileDialog.FileName, name);
                 SelectedPlant.ImgSource = name;
             }
@@ -60,41 +62,50 @@ namespace Plants.ViewModel
         public void SearchCommad(TextBox textBox)
         {
             string temp = textBox.Text.ToLower();
-            using (Context c = new Context())
+            if (!string.IsNullOrWhiteSpace(textBox.Text))
             {
-                _plants.Clear();
-                if (!string.IsNullOrWhiteSpace(textBox.Text))
+                foreach(Plant plant in _sourcePlants)
                 {
-                    foreach (Plant plant in c.Plants)
+                    if (!(plant.CommonName.ToLower().Contains(temp) ||
+                          plant.SciName.ToLower().Contains(temp) ||
+                          plant.Description.ToLower().Contains(temp) ||
+                          plant.Pros.ToLower().Contains(temp) ||
+                          plant.Cons.ToLower().Contains(temp)) &&
+                          _plants.Any(x => x.Id.Equals(plant.Id)))
                     {
-                        if (plant.CommonName.ToLower().Contains(temp) ||
-                            plant.SciName.ToLower().Contains(temp) ||
-                            plant.Description.ToLower().Contains(temp) ||
-                            plant.Pros.ToLower().Contains(temp) ||
-                            plant.Cons.ToLower().Contains(temp))
-                        {
-                            _plants.Add(plant);
-                        }
+                        _plants.Remove(plant);
                     }
-                }
-                else if(_plants.Count != c.Plants.Count() || !_plants[_plants.Count-1].Id.Equals(c.Plants.LastOrDefault().Id))
-                {
-                    foreach (Plant plant in c.Plants)
+                    else if((plant.CommonName.ToLower().Contains(temp) ||
+                          plant.SciName.ToLower().Contains(temp) ||
+                          plant.Description.ToLower().Contains(temp) ||
+                          plant.Pros.ToLower().Contains(temp) ||
+                          plant.Cons.ToLower().Contains(temp)) &&
+                          !_plants.Any(x => x.Id.Equals(plant.Id)))
                     {
                         _plants.Add(plant);
                     }
+                }
+            }
+            else if (_plants.Count != _sourcePlants.Count() || !_plants[_plants.Count - 1].Id.Equals(_sourcePlants.LastOrDefault().Id))
+            {
+                _plants.Clear();
+                foreach (Plant plant in _sourcePlants)
+                {
+                    _plants.Add(plant);
                 }
             }
         }
 
         public void AddCommand(Plant plant)
         {
+            _sourcePlants.Add(plant);
             _plants.Add(plant);
             SelectedPlant = plant;
         }
 
         public void RemoveCommand(Plant plant)
         {
+            _sourcePlants.Add(plant);
             _plants.Remove(plant);
             Remove(plant);
         }
