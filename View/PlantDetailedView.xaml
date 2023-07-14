@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:Plants.View"
         xmlns:DC="clr-namespace:Plants.ViewModel"
         xmlns:converters="clr-namespace:Plants.Converters"
+        Style="{StaticResource MaterialDesignWindow}"
         mc:Ignorable="d"
         Title="PlantDetailedView" Height="450" Width="350">
     <Window.DataContext>
@@ -20,7 +21,8 @@
             <ScrollViewer HorizontalScrollBarVisibility="Disabled"
                           VerticalScrollBarVisibility="Auto">
                 <StackPanel Orientation="Vertical"
-                            HorizontalAlignment="Stretch">
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Top">
                     <Grid >
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="2*"></ColumnDefinition>
@@ -30,7 +32,6 @@
                                     HorizontalAlignment="Left">
                             <Image x:Name="PlantImg" 
                                    Source="{Binding Path=SelectedPlant.ImgSource}"
-                                   MinHeight="150"
                                    MaxHeight="300" 
                                    Margin="{StaticResource GlobalThickness}"/>
                             <Button Content="Pick Image"

@@ -7,9 +7,10 @@
         xmlns:CC="clr-namespace:Plants.CustomControls"
         xmlns:DC="clr-namespace:Plants.ViewModel"
         mc:Ignorable="d"
+        Style="{StaticResource MaterialDesignWindow}"
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize"
-        Title="Login" Height="200" Width="300">
+        Title="Login" Height="250" Width="300">
     <Window.DataContext>
         <DC:LoginVM/>
     </Window.DataContext>
@@ -31,7 +32,8 @@
             <TextBlock Text="Enter your credentials" 
                        HorizontalAlignment="Center"
                        FontWeight="Bold"
-                       FontSize="15"/>
+                       FontSize="15"
+                       Margin="5, 5, 5, 15"/>
             <StackPanel Grid.Row="1"
                         HorizontalAlignment="Center"
                         Orientation="Horizontal"

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using MaterialDesignThemes.Wpf;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Plants.Converters;
 using Plants.Model;
@@ -22,6 +23,8 @@ namespace Plants.ViewModel
         readonly PlantVM _model = new PlantVM();
         private Plant selectedPlant;
         private User currentUser;
+        private bool _isDark = true;
+        private string _themeName = "SystemTheme";
         public User CurrentUser
         {
             get { return currentUser; }
@@ -77,6 +80,22 @@ namespace Plants.ViewModel
                 if (tb == null) return;
                 _model.SearchCommad(tb);
             });
+            DarkThemeCommand = new DelegateCommand(() =>
+            {
+                PaletteHelper paletteHelper = new PaletteHelper();
+                ITheme theme = paletteHelper.GetTheme();
+                theme.SetBaseTheme(new MaterialDesignDarkTheme());
+                paletteHelper.SetTheme(theme);
+                ThemeName = "DarkTheme";
+            });
+            LightThemeCommand = new DelegateCommand(() =>
+            {
+                PaletteHelper paletteHelper = new PaletteHelper();
+                ITheme theme = paletteHelper.GetTheme();
+                theme.SetBaseTheme(new MaterialDesignLightTheme());
+                paletteHelper.SetTheme(theme);
+                ThemeName = "LightTheme";
+            });
         }
 
         private void LoadCurrentUser()
@@ -94,12 +113,32 @@ namespace Plants.ViewModel
         public DelegateCommand ViewDetailsCommand { get; }
         public DelegateCommand PickImageCommand { get; }
         public DelegateCommand<TextBox> SearchCommand { get; }
+        public DelegateCommand DarkThemeCommand { get; }
+        public DelegateCommand LightThemeCommand { get; }
         public ReadOnlyObservableCollection<Plant> Plants => _model.PublicPlants;
 
         public Plant SelectedPlant
         {
             get { return _model.SelectedPlant; }
             set { _model.SelectedPlant = value; }
+        }
+        public bool IsDark
+        {
+            get { return _isDark; }
+            set 
+            { 
+                _isDark = value; 
+                RaisePropertyChanged(nameof(IsDark));
+            }
+        }
+        public string ThemeName
+        {
+            get { return _themeName; }
+            set
+            {
+                _themeName = value;
+                RaisePropertyChanged(nameof(ThemeName));
+            }
         }
     }
 }

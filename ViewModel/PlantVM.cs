@@ -45,12 +45,13 @@ namespace Plants.ViewModel
 
         public void PickImageCommand()
         {
-            string path = AppDomain.CurrentDomain.BaseDirectory;
+            string path = $"{AppDomain.CurrentDomain.BaseDirectory}images";
+            if (!Directory.Exists(path)) Directory.CreateDirectory(path);
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Image files (*.png;*.jpeg)|*.png;*.jpeg|All files (*.*)|*.*";
             if (openFileDialog.ShowDialog() == true)
             {
-                string name = $@"{path}images\{openFileDialog.SafeFileName}";
+                string name = $@"{path}\{openFileDialog.SafeFileName}";
                 File.Copy(openFileDialog.FileName, name);
                 SelectedPlant.ImgSource = name;
             }

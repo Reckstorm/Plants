@@ -9,6 +9,7 @@
         xmlns:CC="clr-namespace:Plants.CustomControls"
         xmlns:DC="clr-namespace:Plants.ViewModel"
         xmlns:converters="clr-namespace:Plants.Converters"
+        Style="{StaticResource MaterialDesignWindow}"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="775">
     <Window.DataContext>
@@ -24,10 +25,25 @@
             <DockPanel LastChildFill="False">
                 <StackPanel DockPanel.Dock="Left">
                     <TextBlock>
+                        <Run Text="Username: " FontWeight="DemiBold"/>
                     <Run Text="{Binding CurrentUser.UserName}"/>
                     <LineBreak/>
+                        <Run Text="Role: " FontWeight="DemiBold"/>
                     <Run Text="{Binding CurrentUser.UserRole.Name}"/>
                     </TextBlock>
+                    <ToggleButton x:Name="Theme" Margin="{StaticResource GlobalThickness}"
+                                  IsChecked="{Binding IsDark}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Checked">
+                                <prism:InvokeCommandAction Command="{Binding DarkThemeCommand}"/>
+                            </i:EventTrigger>
+                            <i:EventTrigger EventName="Unchecked">
+                                <prism:InvokeCommandAction Command="{Binding LightThemeCommand}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </ToggleButton>
+                    <TextBlock Text="{Binding ThemeName}"
+                               VerticalAlignment="Center"/>
                 </StackPanel>
                 <Button Content="Add"
                         DockPanel.Dock="Right"
@@ -43,6 +59,10 @@
                          VerticalAlignment="Center"
                          DockPanel.Dock="Right"
                          Width="150"></TextBox>
+                <TextBlock Text="Search: " 
+                           FontWeight="DemiBold"
+                           DockPanel.Dock="Right"
+                           VerticalAlignment="Center"/>
             </DockPanel>
         </Border>
         <ListBox ItemsSource="{Binding Plants}"
