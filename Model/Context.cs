@@ -9,9 +9,9 @@ namespace Plants.Model
 {
     internal class Context : DbContext
     {
-        DbSet<User> users;
-        DbSet<Role> roles;
-        DbSet<Plant> plants;
+        public DbSet<User> Users { get; set; }
+        public DbSet<Role> Roles { get; set; }
+        public DbSet<Plant> Plants { get; set; }
         public Context() { }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

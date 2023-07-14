@@ -46,6 +46,7 @@ namespace Plants.Model
             this.Id = 0;
 			UserName = string.Empty;
 			Password = string.Empty;
+			UserRole = null;
         }
 
 		public override string ToString() => $"{UserRole} - {UserName}";
